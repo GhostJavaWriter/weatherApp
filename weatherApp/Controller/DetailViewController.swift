@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class DetailViewController: UIViewController {
     
@@ -15,9 +16,14 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    var container: NSPersistentContainer!
+    
+    var sights = [Sights]()
+    var appropriateSights = [Sights]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "Погода в городе"
         navigationItem.largeTitleDisplayMode = .never
         
@@ -37,6 +43,85 @@ class DetailViewController: UIViewController {
             }
         }
         
+        container = NSPersistentContainer(name: "weatherApp")
+        
+        container.loadPersistentStores { (storeDescription, error) in
+            
+            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            
+            if let error = error {
+                print("Unresolved error \(error)")
+            }
+        }
+        
+        DispatchQueue.global().async {
+            guard let sightsList = self.getLocalData(forName: "sights") else { return }
+            
+            DispatchQueue.main.async {
+                for object in sightsList {
+                    
+                    let sight = Sights(context: self.container.viewContext)
+                    self.configure(sight: sight, with: object)
+                }
+                self.saveContext()
+            }
+        }
+        loadSavedData()
+        
+        // set sights to appropriate city
+        for object in sights {
+            if object.relationTo == chosenCity.name.lowercased() {
+                appropriateSights.append(object)
+            }
+        }
+        
+    }
+    
+    func loadSavedData() {
+        let request = Sights.createFetchRequest()
+        do {
+            sights = try container.viewContext.fetch(request)
+            print("got sights: ", sights.count)
+        } catch {
+            print("fetch failed")
+        }
+    }
+    
+    func configure(sight: Sights, with object: SightModel) {
+        
+        sight.name = object.name
+        sight.relationTo = object.relationTo
+        sight.image = object.image ?? "no image"
+        sight.shortDescr = object.shortDescr ?? "no description"
+        sight.fullDescr = object.fullDescr ?? "no description"
+        sight.location = object.location ?? "no location"
+        
+    }
+    
+    func getLocalData(forName name: String) -> [SightModel]? {
+        
+        do {
+            if let bundlePath = Bundle.main.path(forResource: name, ofType: "json"),
+               let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8) {
+                
+                let decodedData = try JSONDecoder().decode([SightModel].self, from: jsonData)
+                return decodedData
+            }
+        } catch {
+            print("error in get local data \(error)")
+        }
+        return nil
+    }
+    
+    func saveContext() {
+        if container.viewContext.hasChanges {
+            do {
+                try container.viewContext.save()
+                print("core data saved")
+            } catch {
+                print("An error occurred while saving: \(error)")
+            }
+        }
     }
     
     func configureScrollView(with model: Model) {
@@ -95,7 +180,6 @@ class DetailViewController: UIViewController {
                                     URLQueryItem(name: "lon", value: "\(location.longitude)"),
                                     URLQueryItem(name: "appid", value: apiKey),
                                     URLQueryItem(name: "exlude", value: "current,minutely,daily,alerts"),
-                                    URLQueryItem(name: "lang", value: "ru"),
                                     URLQueryItem(name: "units", value: "metric")]
         
         var request = URLRequest(url: urlComponents.url!)
@@ -121,9 +205,10 @@ class DetailViewController: UIViewController {
     @IBAction func sightsButton(_ sender: UIButton) {
         
         let vc = SightViewController()
+        
+        vc.sights = appropriateSights
+        
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
     
 }

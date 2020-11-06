@@ -8,19 +8,19 @@
 import UIKit
 
 class SightView: UIView {
-
+    
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, currentSight: Sights) {
         super.init(frame: frame)
-        
+
         self.autoSetDimension(.width, toSize: screenWidth - CGFloat(40))
         self.autoSetDimension(.height, toSize: screenHeight/4)
         
         let viewFrame = CGRect(x: 0, y: 0, width: screenWidth - CGFloat(40), height: screenHeight/4)
         
-        let imageView = UIImageView(image: UIImage(named: "babr"))
+        let imageView = UIImageView(image: UIImage(named: currentSight.image))
         imageView.frame = viewFrame
         imageView.layer.cornerRadius = 15
         imageView.layer.masksToBounds = true
