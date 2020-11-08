@@ -1,5 +1,5 @@
 //
-//  Sights+CoreDataProperties.swift
+//  Sight+CoreDataProperties.swift
 //  weatherApp
 //
 //  Created by Баир Надцалов on 06.11.2020.
@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 
 
-extension Sights {
+extension Sight {
 
-    @nonobjc public class func createFetchRequest() -> NSFetchRequest<Sights> {
-        return NSFetchRequest<Sights>(entityName: "Sights")
+    @nonobjc public class func createFetchRequest() -> NSFetchRequest<Sight> {
+        return NSFetchRequest<Sight>(entityName: "Sight")
     }
 
     @NSManaged public var fullDescr: String
@@ -25,6 +25,6 @@ extension Sights {
 
 }
 
-extension Sights : Identifiable {
+extension Sight : Identifiable {
 
 }
