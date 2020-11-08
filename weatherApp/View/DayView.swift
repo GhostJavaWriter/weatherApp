@@ -42,7 +42,6 @@ class DayView: UIView {
         self.addSubview(backgroundView)
         
         imageView = UIImageView(frame: CGRect.zero)
-        //imageView.backgroundColor = UIColor.brown
         imageView.autoSetDimension(.width, toSize: backgroundViewSize.width)
         imageView.autoSetDimension(.height, toSize: backgroundViewSize.height/2)
         

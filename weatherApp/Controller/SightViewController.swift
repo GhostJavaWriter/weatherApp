@@ -19,6 +19,8 @@ class SightViewController: UIViewController {
         title = "Достопримечательности"
         navigationItem.largeTitleDisplayMode = .never
         
+        view.backgroundColor = .white
+        
         setScrollView()
         
         if sights.count > 0 {
@@ -30,8 +32,8 @@ class SightViewController: UIViewController {
         
         scrollView = UIScrollView()
         scrollView.autoSetDimensions(to: UIScreen.main.bounds.size)
-        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * CGFloat(sights?.count ?? 1))
-        scrollView.backgroundColor = .lightGray
+        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height/4 + 15) * CGFloat(sights?.count ?? 1))
+        
         view.addSubview(scrollView)
     }
     
@@ -59,11 +61,12 @@ class SightViewController: UIViewController {
         }
     }
     
+    //go to 4th screen
     @objc func sightViewTapped() {
         
-        //push view controller with 4th screen
-        //should send sight location, image and text info
-        print("view tapped")
+        let vc = SightDetailVC()
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

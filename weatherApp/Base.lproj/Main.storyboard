@@ -80,7 +80,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pg0-65-1e9">
+                            <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pg0-65-1e9">
                                 <rect key="frame" x="20" y="353" width="374" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="fte-LQ-TQc"/>
@@ -89,7 +89,8 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="yWw-CJ-Ssk"/>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KVB-xb-iZd">
-                                <rect key="frame" x="117.5" y="782" width="179" height="30"/>
+                                <rect key="frame" x="101.5" y="778" width="211" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Достопримечательности"/>
                                 <connections>
                                     <action selector="sightsButton:" destination="Uo6-s0-EBx" eventType="touchUpInside" id="pb3-tI-kdv"/>
@@ -116,6 +117,7 @@
                         <outlet property="cityNameLabel" destination="PGb-ev-vVc" id="WfY-vN-WBC"/>
                         <outlet property="mapView" destination="YBV-Zc-V2A" id="CbU-Ar-Trm"/>
                         <outlet property="scrollView" destination="pg0-65-1e9" id="M9l-yl-qEf"/>
+                        <outlet property="sightButtonOutlet" destination="KVB-xb-iZd" id="84P-XM-oBu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3U2-t3-UwZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

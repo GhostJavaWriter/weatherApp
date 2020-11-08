@@ -15,6 +15,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var sightButtonOutlet: UIButton!
     
     var container: NSPersistentContainer!
     
@@ -26,6 +27,8 @@ class DetailViewController: UIViewController {
         
         title = "Погода в городе"
         navigationItem.largeTitleDisplayMode = .never
+        
+        sightButtonOutlet.isEnabled = false
         
         cityNameLabel.text = chosenCity.name
         cityNameLabel.textAlignment = .center
@@ -72,7 +75,11 @@ class DetailViewController: UIViewController {
         for object in sights {
             if object.relationTo == chosenCity.name.lowercased() {
                 appropriateSights.append(object)
+                print(object.name)
             }
+        }
+        if !appropriateSights.isEmpty {
+            sightButtonOutlet.isEnabled = true
         }
         
     }
