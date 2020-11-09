@@ -11,12 +11,16 @@ import MapKit
 class CityWeatherVC: UIViewController {
     
     var chosenCity: FirstModel!
+    var sights = [Sight]()
+    var weather: Model?
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cityNameLabel: UILabel!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var sightButtonOutlet: UIButton!
-    
-    var sights = [Sight]()
+    @IBOutlet weak var todayLabel: UILabel!
+    @IBOutlet weak var tomLabel: UILabel!
+    @IBOutlet weak var todayColView: UICollectionView!
+    @IBOutlet weak var tomorrowColView: UICollectionView!
+    @IBOutlet weak var sightsBtnOutlet: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +28,35 @@ class CityWeatherVC: UIViewController {
         title = "Погода в городе"
         navigationItem.largeTitleDisplayMode = .never
         
-        sightButtonOutlet.isEnabled = false
-        
-        cityNameLabel.text = chosenCity.name
-        cityNameLabel.textAlignment = .center
+        //turn off button before counting sights in current city
+        sightsBtnOutlet.isEnabled = false
+        sightsBtnOutlet.layer.cornerRadius = 15
         
         configureMapView()
+        
+        cityNameLabel.text = chosenCity.name
+        
+        let date = Date()
+        let calendar = Calendar.current
+        
+        //getting current date
+        let day = calendar.component(.day, from: date)
+        let month = calendar.component(.month, from: date)
+        let year = calendar.component(.year, from: date)
+        
+        todayLabel.text = "Сегодня, \(day) \(month) \(year)"
+        
+        //getting current date plus 1 day
+        var dateComponent = DateComponents()
+        dateComponent.day = 1
+        if let nextDate = Calendar.current.date(byAdding: dateComponent, to: date) {
+            let newDay = calendar.component(.day, from: nextDate)
+            let newMonth = calendar.component(.month, from: nextDate)
+            let newYear = calendar.component(.year, from: nextDate)
+            tomLabel.text = "Завтра, \(newDay) \(newMonth) \(newYear)"
+        } else {
+            tomLabel.text = "Завтра, 00 00 0000"
+        }
         
         let lat = chosenCity.coord.lat
         let lon = chosenCity.coord.lon
@@ -38,12 +65,12 @@ class CityWeatherVC: UIViewController {
         getWeather(at: location) { (model) in
             
             DispatchQueue.main.async {
-                self.configureScrollView(with: model)
+                self.weather = model
             }
         }
         
         if !sights.isEmpty {
-            sightButtonOutlet.isEnabled = true
+            sightsBtnOutlet.isEnabled = true
             
             for (index, item) in sights.enumerated().reversed() {
                 if item.relationTo != chosenCity.name.lowercased() {
@@ -53,31 +80,10 @@ class CityWeatherVC: UIViewController {
         }
         
     }
-    
-    func configureScrollView(with model: Model) {
-        
-        let scrollSize = scrollView.visibleSize
-        
-        let oneDayViewCount = model.hourly.count
-        
-        var previous: DayView?
-        
-        for index in 0..<oneDayViewCount {
-            let dayView = DayView(frame: CGRect.zero, size: scrollSize, model: model.hourly[index], timeOffset: model.timezone_offset)
-            scrollView.addSubview(dayView)
-            if let previous = previous {
-                dayView.autoPinEdge(.left, to: .right, of: previous, withOffset: 10)
-            } else {
-                dayView.autoPinEdge(.left, to: .left, of: scrollView)
-            }
-            previous = dayView
-        }
-        
-        let scrollContenSizeWidth = CGFloat(150 * oneDayViewCount + 10 * (oneDayViewCount - 1))
-
-        scrollView.contentSize = CGSize(width: scrollContenSizeWidth, height: scrollView.visibleSize.height)
-        
-    }
+//    func configureScrollView(with model: Model) {
+//        let oneDayViewCount = model.hourly.count
+//        for index in 0..<oneDayViewCount {
+//            let dayView = DayView(frame: CGRect.zero, size: scrollSize, model: model.hourly[index], timeOffset: model.timezone_offset)
     
     func configureMapView() {
         let annotations = mapView.annotations
@@ -132,7 +138,7 @@ class CityWeatherVC: UIViewController {
         }.resume()
     }
     
-    @IBAction func sightsButton(_ sender: UIButton) {
+    @IBAction func sightsBtnAction(_ sender: Any) {
         
         let vc = CitySightsVC()
         
@@ -140,5 +146,34 @@ class CityWeatherVC: UIViewController {
         
         navigationController?.pushViewController(vc, animated: true)
     }
+}
+
+extension CityWeatherVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if collectionView == todayColView {
+            
+            return 10
+        }
+        
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if collectionView == todayColView {
+            let cell = todayColView.dequeueReusableCell(withReuseIdentifier: "today", for: indexPath) as! TodayColViewCell
+            
+            
+            
+            return cell
+        }
+        
+        let cell = tomorrowColView.dequeueReusableCell(withReuseIdentifier: "tomorrow", for: indexPath) as! TomorrowColViewCell
+        
+        cell.backgroundColor = .cyan
+        
+        return cell
+    }
 }
