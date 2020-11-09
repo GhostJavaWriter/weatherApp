@@ -23,7 +23,7 @@ class SearchScreenVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "Weather"
+        navigationItem.title = "Погода"
         navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.delegate = self

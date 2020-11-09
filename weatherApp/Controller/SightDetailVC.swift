@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import PureLayout
 
 class SightDetailVC: UIViewController {
 
@@ -27,7 +28,7 @@ class SightDetailVC: UIViewController {
         //add scrollView for large descriptions
         let scrollView = UIScrollView()
         
-        //MARK: problem with content size. FIX it later
+        //MARK: Content size working wrong. FIX it later
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 1.7)
         view.addSubview(scrollView)
         

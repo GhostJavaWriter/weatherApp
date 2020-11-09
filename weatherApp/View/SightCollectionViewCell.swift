@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PureLayout
 
 class SightCollectionViewCell: UICollectionViewCell {
     
@@ -18,18 +19,15 @@ class SightCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    let containerView = UIView()
-    var imageView = UIImageView()
-    var nameLabel = UILabel()
-    let descr = UILabel()
-    
-    var screenWidth = UIScreen.main.bounds.width
-    var screenHeight = UIScreen.main.bounds.height
+    private let imageView = UIImageView()
+    private let nameLabel = UILabel()
+    private let descr = UILabel()
     
     override init(frame: CGRect) {
         
         super.init(frame: frame)
         
+        let containerView = UIView()
         contentView.addSubview(containerView)
         containerView.autoPinEdgesToSuperviewEdges()
 

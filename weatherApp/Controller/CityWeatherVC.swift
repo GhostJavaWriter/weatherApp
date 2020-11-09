@@ -12,7 +12,15 @@ class CityWeatherVC: UIViewController {
     
     var chosenCity: FirstModel!
     var sights = [Sight]()
-    var weather: Model?
+    var weather: Model? {
+        didSet {
+            divideWeatherData()
+            todayColView.reloadData()
+            tomorrowColView.reloadData()
+        }
+    }
+    var todayWeatherData = [HourlyModel]()
+    var tomWeatherData = [HourlyModel]()
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cityNameLabel: UILabel!
@@ -24,12 +32,12 @@ class CityWeatherVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = "Погода в городе"
         navigationItem.largeTitleDisplayMode = .never
         
         //turn off button before counting sights in current city
-        sightsBtnOutlet.isEnabled = false
+        sightsBtnOutlet.isHidden = true
         sightsBtnOutlet.layer.cornerRadius = 15
         
         configureMapView()
@@ -70,20 +78,14 @@ class CityWeatherVC: UIViewController {
         }
         
         if !sights.isEmpty {
-            sightsBtnOutlet.isEnabled = true
-            
             for (index, item) in sights.enumerated().reversed() {
                 if item.relationTo != chosenCity.name.lowercased() {
                     sights.remove(at: index)
                 }
             }
+            sightsBtnOutlet.isHidden = false
         }
-        
     }
-//    func configureScrollView(with model: Model) {
-//        let oneDayViewCount = model.hourly.count
-//        for index in 0..<oneDayViewCount {
-//            let dayView = DayView(frame: CGRect.zero, size: scrollSize, model: model.hourly[index], timeOffset: model.timezone_offset)
     
     func configureMapView() {
         let annotations = mapView.annotations
@@ -128,6 +130,7 @@ class CityWeatherVC: UIViewController {
                 if data != nil {
                     if let decoderModel = try? decoder.decode(Model.self, from: data!) {
                         result(decoderModel)
+                        
                     } else {
                         print("decode fail")
                     }
@@ -146,6 +149,36 @@ class CityWeatherVC: UIViewController {
         
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    //MARK: FIX it
+    // divide weather data with 48 item to 2 arrays (today and tommorow)
+    func divideWeatherData() {
+        //"yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        guard let model = weather else { return }
+        
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: Int(model.timezone_offset))
+        let currentDateStr = dateFormatter.string(from: currentDate)
+        
+        var dateComponent = DateComponents()
+        dateComponent.day = 1
+        guard let nextDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) else { return }
+        let nextDateStr = dateFormatter.string(from: nextDate)
+        
+        for item in model.hourly {
+            let dateForecast = Date(timeIntervalSince1970: item.dt)
+            let furtherDate = dateFormatter.string(from: dateForecast)
+            
+            if furtherDate == currentDateStr {
+                todayWeatherData.append(item)
+            } else if furtherDate == nextDateStr {
+                tomWeatherData.append(item)
+            }
+        }
+        
+    }
 }
 
 extension CityWeatherVC: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -153,27 +186,20 @@ extension CityWeatherVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if collectionView == todayColView {
-            
-            return 10
+            return todayWeatherData.count
         }
-        
-        return 10
+        return tomWeatherData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+
         if collectionView == todayColView {
-            let cell = todayColView.dequeueReusableCell(withReuseIdentifier: "today", for: indexPath) as! TodayColViewCell
-            
-            
-            
+            let cell = todayColView.dequeueReusableCell(withReuseIdentifier: "today", for: indexPath) as! WeatherCellView
+            cell.hourWeather = todayWeatherData[indexPath.item]
             return cell
         }
-        
-        let cell = tomorrowColView.dequeueReusableCell(withReuseIdentifier: "tomorrow", for: indexPath) as! TomorrowColViewCell
-        
-        cell.backgroundColor = .cyan
-        
+        let cell = tomorrowColView.dequeueReusableCell(withReuseIdentifier: "tomorrow", for: indexPath) as! WeatherCellView
+        cell.hourWeather = tomWeatherData[indexPath.item]
         return cell
     }
 }
