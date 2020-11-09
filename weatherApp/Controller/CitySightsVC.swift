@@ -16,7 +16,7 @@ class CitySightsVC: UIViewController {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(SightCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        cv.register(SightViewCell.self, forCellWithReuseIdentifier: "cell")
         return cv
     }()
 
@@ -48,7 +48,7 @@ extension CitySightsVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? SightCollectionViewCell else { fatalError() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? SightViewCell else { fatalError() }
         
         cell.sight = sights[indexPath.item]
         

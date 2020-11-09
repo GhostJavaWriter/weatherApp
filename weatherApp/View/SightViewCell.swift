@@ -1,5 +1,5 @@
 //
-//  SightCollectionViewCell.swift
+//  SightViewCell.swift
 //  weatherApp
 //
 //  Created by Баир Надцалов on 08.11.2020.
@@ -8,7 +8,7 @@
 import UIKit
 import PureLayout
 
-class SightCollectionViewCell: UICollectionViewCell {
+class SightViewCell: UICollectionViewCell {
     
     var sight: Sight? {
         didSet {

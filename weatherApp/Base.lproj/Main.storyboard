@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rJl-fM-cHQ">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -14,25 +15,25 @@
             <objects>
                 <viewController id="8BY-Ur-td3" customClass="SearchScreenVC" customModule="weatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kou-C4-3id">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VXF-d2-ISc">
-                                <rect key="frame" x="0.0" y="196" width="414" height="700"/>
+                                <rect key="frame" x="0.0" y="152" width="375" height="549"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="MIC-Qn-Ar1">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MIC-Qn-Ar1" id="RXy-hM-rWm">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="N0j-0y-MRm">
-                                <rect key="frame" x="0.0" y="127" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="83" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Q3N-uv-5Po"/>
                                 </constraints>
@@ -66,29 +67,29 @@
             <objects>
                 <viewController storyboardIdentifier="Detail" id="Uo6-s0-EBx" customClass="CityWeatherVC" customModule="weatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fUG-qc-Erd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="YBV-Zc-V2A">
-                                <rect key="frame" x="0.0" y="44" width="414" height="180"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="110.5"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="180" id="Xeo-ud-y2g"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="180" id="Xeo-ud-y2g"/>
                                 </constraints>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGb-ev-vVc">
-                                <rect key="frame" x="20" y="244" width="374" height="36"/>
+                                <rect key="frame" x="20" y="130.5" width="335" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkM-3w-yYq">
-                                <rect key="frame" x="20" y="300" width="374" height="24"/>
+                                <rect key="frame" x="20" y="186.5" width="335" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7Gl-t5-wbm">
-                                <rect key="frame" x="0.0" y="350.5" width="414" height="138"/>
+                                <rect key="frame" x="0.0" y="237" width="375" height="138"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="138" id="5dU-cO-m9C"/>
@@ -100,7 +101,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="today" id="sDN-Fg-Xd2" customClass="WeatherCellView" customModule="weatherApp" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="today" id="sDN-Fg-Xd2" customClass="WeatherViewCell" customModule="weatherApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="1" width="100" height="136"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="MSy-ad-tDT">
@@ -116,7 +117,7 @@
                                 </connections>
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YEW-ok-owb">
-                                <rect key="frame" x="0.0" y="552.5" width="414" height="138"/>
+                                <rect key="frame" x="0.0" y="439" width="375" height="138"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="138" id="fbc-pO-C9V"/>
@@ -128,7 +129,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="tomorrow" id="eI8-RS-D7e" customClass="WeatherCellView" customModule="weatherApp" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="tomorrow" id="eI8-RS-D7e" customClass="WeatherViewCell" customModule="weatherApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="1" width="100" height="136"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5KG-db-XOy">
@@ -144,13 +145,13 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M0k-Qo-ZTy">
-                                <rect key="frame" x="20" y="508.5" width="374" height="24"/>
+                                <rect key="frame" x="20" y="395" width="335" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vys-fl-gEJ">
-                                <rect key="frame" x="20" y="710.5" width="374" height="50"/>
+                                <rect key="frame" x="20" y="597" width="335" height="50"/>
                                 <color key="backgroundColor" red="0.33356734996458021" green="0.5761911046149677" blue="0.9106123096446701" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="bA4-oi-anH"/>
@@ -171,6 +172,7 @@
                             <constraint firstItem="YEW-ok-owb" firstAttribute="leading" secondItem="MGf-nc-exQ" secondAttribute="leading" id="0os-2y-GOQ"/>
                             <constraint firstItem="MGf-nc-exQ" firstAttribute="trailing" secondItem="M0k-Qo-ZTy" secondAttribute="trailing" constant="20" id="E9R-eR-pae"/>
                             <constraint firstItem="7Gl-t5-wbm" firstAttribute="trailing" secondItem="MGf-nc-exQ" secondAttribute="trailing" id="G1v-qx-B89"/>
+                            <constraint firstItem="MGf-nc-exQ" firstAttribute="bottom" secondItem="vys-fl-gEJ" secondAttribute="bottom" constant="20" id="IcF-f0-bBp"/>
                             <constraint firstItem="MGf-nc-exQ" firstAttribute="trailing" secondItem="vys-fl-gEJ" secondAttribute="trailing" constant="20" id="J96-Vc-N2I"/>
                             <constraint firstItem="M0k-Qo-ZTy" firstAttribute="leading" secondItem="MGf-nc-exQ" secondAttribute="leading" constant="20" id="QAV-hP-eEL"/>
                             <constraint firstItem="7Gl-t5-wbm" firstAttribute="leading" secondItem="MGf-nc-exQ" secondAttribute="leading" id="QTk-Xk-uyh"/>
@@ -210,7 +212,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rJl-fM-cHQ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lKX-Mq-uId">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

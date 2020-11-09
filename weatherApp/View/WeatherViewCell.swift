@@ -1,5 +1,5 @@
 //
-//  WeatherCellView.swift
+//  WeatherViewCell.swift
 //  weatherApp
 //
 //  Created by Баир Надцалов on 08.11.2020.
@@ -8,7 +8,7 @@
 import UIKit
 
 
-class WeatherCellView: UICollectionViewCell {
+class WeatherViewCell: UICollectionViewCell {
     
     var hourWeather: HourlyModel? {
         didSet {

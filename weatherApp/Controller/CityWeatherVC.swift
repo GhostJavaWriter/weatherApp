@@ -173,8 +173,10 @@ class CityWeatherVC: UIViewController {
             
             if furtherDate == currentDateStr {
                 todayWeatherData.append(item)
+                print(furtherDate)
             } else if furtherDate == nextDateStr {
                 tomWeatherData.append(item)
+                print(furtherDate)
             }
         }
         
@@ -194,11 +196,11 @@ extension CityWeatherVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         if collectionView == todayColView {
-            let cell = todayColView.dequeueReusableCell(withReuseIdentifier: "today", for: indexPath) as! WeatherCellView
+            let cell = todayColView.dequeueReusableCell(withReuseIdentifier: "today", for: indexPath) as! WeatherViewCell
             cell.hourWeather = todayWeatherData[indexPath.item]
             return cell
         }
-        let cell = tomorrowColView.dequeueReusableCell(withReuseIdentifier: "tomorrow", for: indexPath) as! WeatherCellView
+        let cell = tomorrowColView.dequeueReusableCell(withReuseIdentifier: "tomorrow", for: indexPath) as! WeatherViewCell
         cell.hourWeather = tomWeatherData[indexPath.item]
         return cell
     }
