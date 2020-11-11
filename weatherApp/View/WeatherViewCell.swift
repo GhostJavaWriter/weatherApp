@@ -75,13 +75,16 @@ class WeatherViewCell: UICollectionViewCell {
     
     func getFormatedTime(time: TimeInterval) -> String {
         //"yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        
+    
         let date = Date(timeIntervalSince1970: time)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: Int(timeOffset))
-        let time = dateFormatter.string(from: date)
         
-        return time
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "dd HH:mm"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: Int(timeOffset))
+        
+        let currentTime = dateFormatter.string(from: date)
+        
+        return currentTime
     }
 }

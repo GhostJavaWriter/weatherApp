@@ -185,6 +185,8 @@ class CityWeatherVC: UIViewController {
 
 extension CityWeatherVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
+    //MARK: It's bad idea to show data in 1 section. Change that logic to 2 different sections
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if collectionView == todayColView {
