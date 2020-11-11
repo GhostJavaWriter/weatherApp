@@ -17,7 +17,6 @@ class SearchScreenVC: UIViewController {
     
     private var cityObjects = [Sight]()
     private var sights = [Sight]()
-    private var currentCity: FirstModel!
     
     private var container: NSPersistentContainer!
     
@@ -34,7 +33,6 @@ class SearchScreenVC: UIViewController {
         tableView.dataSource = self
         
         searchController.searchBar.delegate = self
-        //searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false //make clickable
         searchController.searchBar.placeholder = "Поиск"
         navigationItem.searchController = searchController

@@ -15,12 +15,16 @@ class CityWeatherVC: UIViewController {
     var weather: Model? {
         didSet {
             divideWeatherData()
+            if let weather = weather {
+                timeZoneOffset = weather.timezone_offset
+            }
             todayColView.reloadData()
             tomorrowColView.reloadData()
         }
     }
     var todayWeatherData = [HourlyModel]()
     var tomWeatherData = [HourlyModel]()
+    var timeZoneOffset = TimeInterval()
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cityNameLabel: UILabel!
@@ -150,8 +154,7 @@ class CityWeatherVC: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    //MARK: FIX it
-    // divide weather data with 48 item to 2 arrays (today and tommorow)
+    // time showing bug isn't here
     func divideWeatherData() {
         //"yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         guard let model = weather else { return }
@@ -173,13 +176,10 @@ class CityWeatherVC: UIViewController {
             
             if furtherDate == currentDateStr {
                 todayWeatherData.append(item)
-                print(furtherDate)
             } else if furtherDate == nextDateStr {
                 tomWeatherData.append(item)
-                print(furtherDate)
             }
         }
-        
     }
 }
 
@@ -198,10 +198,12 @@ extension CityWeatherVC: UICollectionViewDataSource, UICollectionViewDelegate {
         if collectionView == todayColView {
             let cell = todayColView.dequeueReusableCell(withReuseIdentifier: "today", for: indexPath) as! WeatherViewCell
             cell.hourWeather = todayWeatherData[indexPath.item]
+            cell.timeOffset = timeZoneOffset
             return cell
         }
         let cell = tomorrowColView.dequeueReusableCell(withReuseIdentifier: "tomorrow", for: indexPath) as! WeatherViewCell
         cell.hourWeather = tomWeatherData[indexPath.item]
+        cell.timeOffset = timeZoneOffset
         return cell
     }
 }
