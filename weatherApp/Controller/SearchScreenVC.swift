@@ -10,29 +10,39 @@ import CoreData
 
 class SearchScreenVC: UIViewController {
     
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
-    var recentSearches = [FirstModel]()
+    private var cities = [CityModel]()
+    private var filteredCities = [CityModel]()
     
-    var cityObjects = [Sight]()
-    var sights = [Sight]()
+    private var cityObjects = [Sight]()
+    private var sights = [Sight]()
+    private var currentCity: FirstModel!
     
-    var container: NSPersistentContainer!
+    private var container: NSPersistentContainer!
+    
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "Погода"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.delegate = self
         tableView.dataSource = self
         
-        searchBar.delegate = self
-        searchBar.placeholder = "Search"
+        searchController.searchBar.delegate = self
+        //searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false //make clickable
+        searchController.searchBar.placeholder = "Поиск"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
         
-        //here the things
+        //load cities
+        getCitiesFromFile(fileName: "cities")
+        
         container = NSPersistentContainer(name: "weatherApp")
         
         container.loadPersistentStores { (storeDescription, error) in
@@ -45,7 +55,7 @@ class SearchScreenVC: UIViewController {
         }
         
         DispatchQueue.global().async {
-            guard let sightsList = self.getLocalData(forName: "sights") else { return }
+            guard let sightsList = self.getSightsFromFile(fileName: "sights") else { return }
             
             DispatchQueue.main.async {
                 for object in sightsList {
@@ -82,7 +92,7 @@ class SearchScreenVC: UIViewController {
         
     }
     
-    func getLocalData(forName name: String) -> [SightModel]? {
+    func getSightsFromFile(fileName name: String) -> [SightModel]? {
         
         do {
             if let bundlePath = Bundle.main.path(forResource: name, ofType: "json"),
@@ -95,6 +105,20 @@ class SearchScreenVC: UIViewController {
             print("error in get local data \(error)")
         }
         return nil
+    }
+    
+    func getCitiesFromFile(fileName name: String) {
+        
+        do {
+            if let bundlePath = Bundle.main.path(forResource: name, ofType: "json"),
+               let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8) {
+                    
+                let decodedData = try JSONDecoder().decode([CityModel].self, from: jsonData)
+                cities = decodedData
+            }
+        } catch {
+            print("list of cities load fail")
+        }
     }
     
     func saveContext() {
@@ -141,44 +165,59 @@ class SearchScreenVC: UIViewController {
 
 extension SearchScreenVC: UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+
+        if !searchBarIsEmpty {
+            filterContentForSearchingText(searchBar.text!)
+        } else {
+            filteredCities.removeAll()
+            tableView.reloadData()
+        }
+    }
+    
+    private func filterContentForSearchingText(_ searchText: String) {
+        
+        filteredCities = cities.filter({ (city: CityModel) -> Bool in
+            
+            return city.name.lowercased().contains(searchText.lowercased())
+        })
+        
+        tableView.reloadData()
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recentSearches.count
+        
+        return filteredCities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = recentSearches[indexPath.row].name
+        cell.textLabel?.text = filteredCities[indexPath.row].name
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? CityWeatherVC {
-            vc.chosenCity = recentSearches[indexPath.row]
-            
-            vc.sights = cityObjects
-            
-            navigationController?.pushViewController(vc, animated: true)
-
-        }
+        let city = filteredCities[indexPath.row].name
         
-    }
-    // MARK: SearchBarDelegate
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let cityName = searchBar.text {
+        getLocation(with: city) { (firstModel) in
+            guard let result = firstModel else { return }
             
-            getLocation(with: cityName) { (firstModel) in
-                guard let result = firstModel else { return }
-                self.recentSearches.insert(result, at: 0)
-                
-                for item in self.sights {
-                    if item.relationTo == result.name.lowercased() {
-                        self.cityObjects.append(item)
-                    }
+            for item in self.sights {
+                if item.relationTo == result.name.lowercased() {
+                    self.cityObjects.append(item)
                 }
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+            }
+            DispatchQueue.main.async {
+                if let vc = self.storyboard?.instantiateViewController(withIdentifier: "Detail") as? CityWeatherVC {
+                    
+                    vc.chosenCity = result
+                    
+                    vc.sights = self.cityObjects
+                    
+                    self.navigationController?.pushViewController(vc, animated: true)
+
                 }
             }
         }

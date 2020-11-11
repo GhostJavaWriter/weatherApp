@@ -32,7 +32,7 @@ class WeatherViewCell: UICollectionViewCell {
         contentView.addSubview(containerView)
         containerView.layer.cornerRadius = 15
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
+        containerView.backgroundColor = .lightGray
         
         //adding weather icon
         containerView.addSubview(imageView)
