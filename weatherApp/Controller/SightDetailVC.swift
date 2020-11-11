@@ -123,13 +123,6 @@ class SightDetailVC: UIViewController {
             let location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             addAnnotation(mapView: mapView, sightName: sight.name, at: location)
         }
-        
-        //imageview, labelname, short, full, label, mapview
-//        let contentHight = imageView.bounds.height + sightNameLabel.bounds.height + descLabel.bounds.height + descFullLabel.bounds.height + onMapLabel.bounds.height + mapView.bounds.height
-//        print(imageView.bounds.height)
-//        print(mapView.bounds.height)
-//        print("---->>>", contentHight, UIScreen.main.bounds.height)
-        
     }
     
     func addAnnotation(mapView: MKMapView, sightName: String, at location: CLLocationCoordinate2D) {

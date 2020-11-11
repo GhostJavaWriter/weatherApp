@@ -74,7 +74,6 @@ class WeatherViewCell: UICollectionViewCell {
     }
     
     func getFormatedTime(time: TimeInterval) -> String {
-        //"yyyy-MM-dd'T'HH:mm:ssZZZZZ"
     
         let date = Date(timeIntervalSince1970: time)
         

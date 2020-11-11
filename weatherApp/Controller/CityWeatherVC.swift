@@ -154,9 +154,8 @@ class CityWeatherVC: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    // time showing bug isn't here
     func divideWeatherData() {
-        //"yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        
         guard let model = weather else { return }
         
         let currentDate = Date()
@@ -184,8 +183,6 @@ class CityWeatherVC: UIViewController {
 }
 
 extension CityWeatherVC: UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    //MARK: It's bad idea to show data in 1 section. Change that logic to 2 different sections
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
