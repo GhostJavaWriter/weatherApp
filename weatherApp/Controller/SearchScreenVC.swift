@@ -194,6 +194,7 @@ extension SearchScreenVC: UISearchBarDelegate, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = filteredCities[indexPath.row].name
+        cell.selectionStyle = .none
         return cell
     }
     

@@ -13,7 +13,8 @@ class WeatherViewCell: UICollectionViewCell {
     var hourWeather: HourlyModel? {
         didSet {
             guard let hourWeather = hourWeather else { return }
-            loadIconFromURL(with: hourWeather.weather[0].icon)
+            let image = UIImage(named: hourWeather.weather[0].icon)
+            imageView.image = image
             timeLabel.text = getFormatedTime(time: hourWeather.dt)
             tempLabel.text = "\(Int(hourWeather.temp))˚C"
         }
@@ -70,25 +71,6 @@ class WeatherViewCell: UICollectionViewCell {
             tempLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             tempLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
         ])
-    }
-    
-    //MARK: FIX it
-    //slow function. need change it to load icons into assets
-    func loadIconFromURL(with iconCode: String){
-        
-        let urlString = "http://openweathermap.org/img/wn/\(iconCode)@2x.png"
-        
-        guard let imageUrl = URL(string: urlString) else {
-            print("get url error")
-            return
-        }
-
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: imageUrl) else { return }
-            DispatchQueue.main.async {
-                self.imageView.image = UIImage(data: imageData)
-            }
-        }
     }
     
     func getFormatedTime(time: TimeInterval) -> String {

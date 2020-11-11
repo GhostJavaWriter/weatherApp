@@ -88,6 +88,7 @@ class CityWeatherVC: UIViewController {
     }
     
     func configureMapView() {
+        
         let annotations = mapView.annotations
         mapView.removeAnnotations(annotations)
         
@@ -103,7 +104,6 @@ class CityWeatherVC: UIViewController {
         let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
         let region = MKCoordinateRegion(center: coordinate, span: span)
         mapView.setRegion(region, animated: true)
-        
     }
     
     func getWeather(at location: CLLocationCoordinate2D, result: @escaping ((Model) -> ())){
